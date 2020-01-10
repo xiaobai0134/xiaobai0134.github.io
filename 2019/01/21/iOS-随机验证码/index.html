@@ -53,13 +53,13 @@
 <meta property="og:site_name" content="小白的博客">
 <meta property="og:description" content="最近在项目中用到了随机验证码，在这里简单做个记录。效果图：  主要代码： 1234567891011121314151617181920212223242526272829.h文件#import &lt;UIKit&#x2F;UIKit.h&gt;typedef NS_ENUM(NSInteger,XBGetVerificationCodeType)&amp;#123;        XBGetVerif">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://xiaobai0134.github.io/2019/01/21/iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/20181004164927131.gif">
+<meta property="og:image" content="https://xiaobai0134.github.io/xiaobai0134.github.io/.io//20181004164927131.gif">
 <meta property="article:published_time" content="2019-01-21T06:14:52.000Z">
 <meta property="article:modified_time" content="2019-01-21T06:16:38.000Z">
 <meta property="article:author" content="小白">
 <meta property="article:tag" content="Object-C">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://xiaobai0134.github.io/2019/01/21/iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/20181004164927131.gif">
+<meta name="twitter:image" content="https://xiaobai0134.github.io/xiaobai0134.github.io/.io//20181004164927131.gif">
 
 <link rel="canonical" href="https://xiaobai0134.github.io/2019/01/21/iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/">
 
@@ -191,7 +191,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/21/iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -238,7 +238,7 @@
 
       
         <p>最近在项目中用到了随机验证码，在这里简单做个记录。<br>效果图：</p>
-<p><img src="iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/20181004164927131.gif" alt="20181004164927131"></p>
+<p><img src="/xiaobai0134.github.io/.io//20181004164927131.gif" alt="20181004164927131"></p>
 <p>主要代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">.h文件</span><br><span class="line">#import &lt;UIKit&#x2F;UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">typedef NS_ENUM(NSInteger,XBGetVerificationCodeType)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    XBGetVerificationCodeOne &#x3D; 0,&#x2F;&#x2F;只数字</span><br><span class="line">    </span><br><span class="line">    XBGetVerificationCodeTwo,&#x2F;&#x2F;只字母</span><br><span class="line">    </span><br><span class="line">    XBGetVerificationCodeThree,&#x2F;&#x2F;数字字母混合</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">typedef void(^setShowCodeNumber)(NSString * codeNumber);</span><br><span class="line"></span><br><span class="line">@interface XBGetVerificationCodeView : UIView</span><br><span class="line"></span><br><span class="line">@property(nonatomic,assign)NSInteger verificationNumber;&#x2F;&#x2F;验证码位数</span><br><span class="line"></span><br><span class="line">@property(nonatomic,assign)XBGetVerificationCodeType tmpCodeType;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)setShowCodeNumber setShowCodeNumber;&#x2F;&#x2F;获取到的验证码</span><br><span class="line"></span><br><span class="line">-(void)setCodeTitleColor:(UIColor *)color;&#x2F;&#x2F; 设置验证码字体颜色</span><br><span class="line"></span><br><span class="line">-(void)setCodeTitleFont:(UIFont *)font;&#x2F;&#x2F;设置验证码字体大小</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
 
@@ -335,6 +335,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="小白"
+      src="/xiaobai0134.github.io/images/avatar.png">
   <p class="site-author-name" itemprop="name">小白</p>
   <div class="site-description" itemprop="description">月圆之夜，紫禁之巅，一剑西来，天外飞仙。</div>
 </div>

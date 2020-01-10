@@ -186,7 +186,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/21/iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -234,7 +234,7 @@
 
       
           <p>最近在项目中用到了随机验证码，在这里简单做个记录。<br>效果图：</p>
-<p><img src="iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/20181004164927131.gif" alt="20181004164927131"></p>
+<p><img src="/xiaobai0134.github.io/.io//20181004164927131.gif" alt="20181004164927131"></p>
 <p>主要代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">.h文件</span><br><span class="line">#import &lt;UIKit&#x2F;UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">typedef NS_ENUM(NSInteger,XBGetVerificationCodeType)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    XBGetVerificationCodeOne &#x3D; 0,&#x2F;&#x2F;只数字</span><br><span class="line">    </span><br><span class="line">    XBGetVerificationCodeTwo,&#x2F;&#x2F;只字母</span><br><span class="line">    </span><br><span class="line">    XBGetVerificationCodeThree,&#x2F;&#x2F;数字字母混合</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">typedef void(^setShowCodeNumber)(NSString * codeNumber);</span><br><span class="line"></span><br><span class="line">@interface XBGetVerificationCodeView : UIView</span><br><span class="line"></span><br><span class="line">@property(nonatomic,assign)NSInteger verificationNumber;&#x2F;&#x2F;验证码位数</span><br><span class="line"></span><br><span class="line">@property(nonatomic,assign)XBGetVerificationCodeType tmpCodeType;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)setShowCodeNumber setShowCodeNumber;&#x2F;&#x2F;获取到的验证码</span><br><span class="line"></span><br><span class="line">-(void)setCodeTitleColor:(UIColor *)color;&#x2F;&#x2F; 设置验证码字体颜色</span><br><span class="line"></span><br><span class="line">-(void)setCodeTitleFont:(UIFont *)font;&#x2F;&#x2F;设置验证码字体大小</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
 
@@ -264,7 +264,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%BE%AE%E5%8D%9A%E7%99%BB%E5%BD%95-redirect-uri-mismatch-%E9%94%99%E8%AF%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -312,8 +312,8 @@
 
       
           <p>在微博登录中，出现 redirect_uri_mismatch 错误如下图：</p>
-<p><img src="iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%BE%AE%E5%8D%9A%E7%99%BB%E5%BD%95-redirect-uri-mismatch-%E9%94%99%E8%AF%AF/201811302152077.png" alt="201811302152077"></p>
-<p>原因是在回调地址不一致或没有设置造成的。<br>解决办法：登录微博开放平台，在我的应用—&gt; 应用信息—&gt; 高级信息中设置OAuth2.0 回调地址。<br><img src="iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%BE%AE%E5%8D%9A%E7%99%BB%E5%BD%95-redirect-uri-mismatch-%E9%94%99%E8%AF%AF/20181130220300566.png" alt="20181130220300566"></p>
+<p><img src="/xiaobai0134.github.io/.io//201811302152077.png" alt="201811302152077"></p>
+<p>原因是在回调地址不一致或没有设置造成的。<br>解决办法：登录微博开放平台，在我的应用—&gt; 应用信息—&gt; 高级信息中设置OAuth2.0 回调地址。<br><img src="/xiaobai0134.github.io/.io//20181130220300566.png" alt="20181130220300566"></p>
 <p>在应用中需要微博登录的地方调用。</p>
 <pre><code>WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = 授权回调地址;
@@ -344,7 +344,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/18/iOS-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%91%87%E4%B8%80%E6%91%87%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -411,7 +411,7 @@
 <p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
 <hr>
 <p>最后效果如下图：</p>
-<p><img src="iOS-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%91%87%E4%B8%80%E6%91%87%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE/yaoyiyao.png" alt="摇一摇截图"></p>
+<p><img src="/xiaobai0134.github.io/.io//yaoyiyao.png" alt="摇一摇截图"></p>
 <hr>
 <p>demo地址：<a href="https://github.com/xiaobai0134/shakeScreen.git" target="_blank" rel="noopener">https://github.com/xiaobai0134/shakeScreen.git</a></p>
 
@@ -436,7 +436,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/18/iOS-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-UIAlertController-%E8%87%AA%E5%AE%9A%E4%B9%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -523,7 +523,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/18/iOS-%E5%88%A4%E6%96%AD%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4%E5%9C%A8%E6%9F%90%E4%B8%AA%E6%97%B6%E9%97%B4%E6%AE%B5%E5%86%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -602,7 +602,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/18/iOS-%E5%88%A4%E6%96%AD%E6%89%8B%E6%9C%BA%E5%9E%8B%E5%8F%B7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -676,7 +676,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/18/mac-%E4%B8%AD%E6%8F%90%E7%A4%BA%E5%BA%94%E7%94%A8%E2%80%9C%E5%B7%B2%E6%8D%9F%E5%9D%8F%EF%BC%8C%E6%89%93%E4%B8%8D%E5%BC%80%E2%80%9D-%E7%9A%84%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -749,7 +749,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/18/mac%E7%8E%AF%E5%A2%83%E4%B8%8Bionic%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -840,7 +840,7 @@
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/18/iOS-%E5%A4%8D%E5%88%B6%E6%96%87%E6%9C%AC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.png">
       <meta itemprop="name" content="小白">
       <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
     </span>
@@ -967,6 +967,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="小白"
+      src="/xiaobai0134.github.io/images/avatar.png">
   <p class="site-author-name" itemprop="name">小白</p>
   <div class="site-description" itemprop="description">月圆之夜，紫禁之巅，一剑西来，天外飞仙。</div>
 </div>
