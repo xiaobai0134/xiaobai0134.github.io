@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/xiaobai0134.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/xiaobai0134.github.io/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/xiaobai0134.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/xiaobai0134.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/xiaobai0134.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/xiaobai0134.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xiaobai0134.github.io').hostname,
+    root: '/xiaobai0134.github.io/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="gif图片合成的过程分为以下四步： 12341.获取图片数据2.创建gif图片3.配置gif图片4.单帧图片添加到gif 在这之前需要在工程中添加framework：ImageIO和MobileCoreServices 12#import &lt;ImageIO&#x2F;ImageIO.h&gt;#import &lt;MobileCoreServices&#x2F;MobileCoreServ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS学习笔记--gif图片合成">
+<meta property="og:url" content="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-gif%E5%9B%BE%E7%89%87%E5%90%88%E6%88%90/index.html">
+<meta property="og:site_name" content="小白的博客">
+<meta property="og:description" content="gif图片合成的过程分为以下四步： 12341.获取图片数据2.创建gif图片3.配置gif图片4.单帧图片添加到gif 在这之前需要在工程中添加framework：ImageIO和MobileCoreServices 12#import &lt;ImageIO&#x2F;ImageIO.h&gt;#import &lt;MobileCoreServices&#x2F;MobileCoreServ">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-01-21T06:28:33.000Z">
+<meta property="article:modified_time" content="2019-01-21T06:37:29.000Z">
+<meta property="article:author" content="小白">
+<meta property="article:tag" content="图片处理">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-gif%E5%9B%BE%E7%89%87%E5%90%88%E6%88%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>iOS学习笔记--gif图片合成 | 小白的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/xiaobai0134.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小白的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">月圆之夜，紫禁之巅，一剑西来，天外飞仙。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/xiaobai0134.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/xiaobai0134.github.io/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/xiaobai0134.github.io/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/xiaobai0134.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/xiaobai0134.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-gif%E5%9B%BE%E7%89%87%E5%90%88%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="name" content="小白">
+      <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小白的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS学习笔记--gif图片合成
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-01-21 14:28:33 / 修改时间：14:37:29" itemprop="dateCreated datePublished" datetime="2019-01-21T14:28:33+08:00">2019-01-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/xiaobai0134.github.io/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>gif图片合成的过程分为以下四步：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.获取图片数据</span><br><span class="line">2.创建gif图片</span><br><span class="line">3.配置gif图片</span><br><span class="line">4.单帧图片添加到gif</span><br></pre></td></tr></table></figure>
+<p>在这之前需要在工程中添加framework：ImageIO和MobileCoreServices</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;ImageIO&#x2F;ImageIO.h&gt;</span><br><span class="line">#import &lt;MobileCoreServices&#x2F;MobileCoreServices.h&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;1.获取图片数据</span><br><span class="line">NSMutableArray * imagesArray &#x3D; [[NSMutableArray alloc]initWithObjects:[UIImage imageNamed:@&quot;Documentation0.png&quot;],[UIImage imageNamed:@&quot;Documentation1.png&quot;],[UIImage imageNamed:@&quot;Documentation2.png&quot;],[UIImage imageNamed:@&quot;Documentation3.png&quot;], nil];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">-(void)gifPictureSynthetic:(NSMutableArray*)imagesArray</span><br><span class="line">&#123;  </span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F;2.创建gif文件</span><br><span class="line">    </span><br><span class="line">    NSArray * document &#x3D; NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);</span><br><span class="line">    </span><br><span class="line">    NSString * doucmentStr &#x3D;[document objectAtIndex:0];</span><br><span class="line">    </span><br><span class="line">    NSFileManager * filemanager &#x3D;[NSFileManager defaultManager];</span><br><span class="line">    </span><br><span class="line">    NSString * textdic &#x3D; [doucmentStr stringByAppendingString:@&quot;&#x2F;gif&quot;];</span><br><span class="line">    </span><br><span class="line">    [filemanager createDirectoryAtPath:textdic withIntermediateDirectories:YES attributes:nil error:nil];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;路径</span><br><span class="line">    NSString * path &#x3D; [textdic stringByAppendingString:@&quot;test1.gif&quot;];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;path &#x3D; %@&quot;,path);</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;3.配置gif属性</span><br><span class="line">    CGImageDestinationRef destion;</span><br><span class="line">    </span><br><span class="line">    CFURLRef url &#x3D; CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)path, kCFURLPOSIXPathStyle, false);</span><br><span class="line">   destion &#x3D;  CGImageDestinationCreateWithURL(url, kUTTypeGIF, imagesArray.count, NULL);</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;相关属性</span><br><span class="line">    NSDictionary * frameDic &#x3D; [NSDictionary dictionaryWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.3],(NSString *)kCGImagePropertyGIFDelayTime, nil] forKey:(NSString *)kCGImagePropertyGIFDelayTime];&#x2F;&#x2F;延时</span><br><span class="line">    </span><br><span class="line">    NSMutableDictionary * gifdic &#x3D; [NSMutableDictionary dictionaryWithCapacity:2];</span><br><span class="line">    </span><br><span class="line">    [gifdic setObject:[NSNumber numberWithBool:YES] forKey:(NSString *)kCGImagePropertyGIFHasGlobalColorMap];&#x2F;&#x2F;颜色</span><br><span class="line">    </span><br><span class="line">    [gifdic setObject:(NSString *)kCGImagePropertyColorModelRGB forKey:(NSString *)kCGImagePropertyColorModel];</span><br><span class="line">    </span><br><span class="line">    [gifdic setObject:[NSNumber numberWithInt:8] forKey:(NSString *)kCGImagePropertyDepth];&#x2F;&#x2F;颜色深度</span><br><span class="line">    </span><br><span class="line">    [gifdic setObject:[NSNumber numberWithInt:0] forKey:(NSString *)kCGImagePropertyGIFLoopCount];&#x2F;&#x2F;是否重复</span><br><span class="line">    </span><br><span class="line">    NSDictionary * gifproperty &#x3D; [NSDictionary dictionaryWithObject:gifdic forKey:(NSString *)kCGImagePropertyGIFDictionary];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;4.单帧添加到gif</span><br><span class="line">    </span><br><span class="line">    for (UIImage * dimage in imagesArray)</span><br><span class="line">    &#123;</span><br><span class="line">        CGImageDestinationAddImage(destion, dimage.CGImage, (__bridge CFDictionaryRef)frameDic);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    CGImageDestinationSetProperties(destion, (__bridge CFDictionaryRef)gifproperty);</span><br><span class="line">    CGImageDestinationFinalize(destion);</span><br><span class="line">    </span><br><span class="line">    CFRelease(destion);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/xiaobai0134.github.io/tags/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" rel="tag"># 图片处理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-gif%E5%9B%BE%E7%89%87%E5%88%86%E8%A7%A3/" rel="prev" title="iOS学习笔记--gif图片分解">
+      <i class="fa fa-chevron-left"></i> iOS学习笔记--gif图片分解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%BE%E7%89%87%E7%BE%8E%E7%99%BD-%E4%B8%80/" rel="next" title="iOS学习笔记--图片美白(一)">
+      iOS学习笔记--图片美白(一) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">小白</p>
+  <div class="site-description" itemprop="description">月圆之夜，紫禁之巅，一剑西来，天外飞仙。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/xiaobai0134.github.io/archives">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/xiaobai0134.github.io/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/xiaobai0134.github.io/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaobai0134" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xiaobai0134" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:191678492@qq.com" title="E-Mail → mailto:191678492@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/yizhiliulangdemiao" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;yizhiliulangdemiao" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小白</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/xiaobai0134.github.io/lib/anime.min.js"></script>
+  <script src="/xiaobai0134.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/xiaobai0134.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/xiaobai0134.github.io/js/utils.js"></script>
+
+<script src="/xiaobai0134.github.io/js/motion.js"></script>
+
+
+<script src="/xiaobai0134.github.io/js/schemes/pisces.js"></script>
+
+
+<script src="/xiaobai0134.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/xiaobai0134.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/xiaobai0134.github.io/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/xiaobai0134.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/xiaobai0134.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/xiaobai0134.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/xiaobai0134.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xiaobai0134.github.io').hostname,
+    root: '/xiaobai0134.github.io/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="1最近在项目中遇到了这样一个问题，在tableView的cell上添加textfiled，然后获取cell上textfiled的值。cell的个数是可以动态改变的。如下图：   1在网上看了很多别人写的没找见容易点的实现方法，自己写了一个比较笨的方法。主要代码如下：  1234567@property(nonatomic,strong)NSMutableArray * arrray&#x2F;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" iOS学习笔记--tableView中如何获取cell上textfiled的值">
+<meta property="og:url" content="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-tableView%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96cell%E4%B8%8Atextfiled%E7%9A%84%E5%80%BC/index.html">
+<meta property="og:site_name" content="小白的博客">
+<meta property="og:description" content="1最近在项目中遇到了这样一个问题，在tableView的cell上添加textfiled，然后获取cell上textfiled的值。cell的个数是可以动态改变的。如下图：   1在网上看了很多别人写的没找见容易点的实现方法，自己写了一个比较笨的方法。主要代码如下：  1234567@property(nonatomic,strong)NSMutableArray * arrray&#x2F;&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-tableView%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96cell%E4%B8%8Atextfiled%E7%9A%84%E5%80%BC/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-tableView%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96cell%E4%B8%8Atextfiled%E7%9A%84%E5%80%BC/20170608132436673.png">
+<meta property="article:published_time" content="2019-01-21T06:23:15.000Z">
+<meta property="article:modified_time" content="2019-01-21T06:25:05.000Z">
+<meta property="article:author" content="小白">
+<meta property="article:tag" content="Object-C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-tableView%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96cell%E4%B8%8Atextfiled%E7%9A%84%E5%80%BC/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-tableView%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96cell%E4%B8%8Atextfiled%E7%9A%84%E5%80%BC/20170608132436673.png">
+
+<link rel="canonical" href="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-tableView%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96cell%E4%B8%8Atextfiled%E7%9A%84%E5%80%BC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title> iOS学习笔记--tableView中如何获取cell上textfiled的值 | 小白的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/xiaobai0134.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小白的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">月圆之夜，紫禁之巅，一剑西来，天外飞仙。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/xiaobai0134.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/xiaobai0134.github.io/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/xiaobai0134.github.io/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/xiaobai0134.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/xiaobai0134.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-tableView%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96cell%E4%B8%8Atextfiled%E7%9A%84%E5%80%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="name" content="小白">
+      <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小白的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+           iOS学习笔记--tableView中如何获取cell上textfiled的值
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-01-21 14:23:15 / 修改时间：14:25:05" itemprop="dateCreated datePublished" datetime="2019-01-21T14:23:15+08:00">2019-01-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/xiaobai0134.github.io/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最近在项目中遇到了这样一个问题，在tableView的cell上添加textfiled，然后获取cell上textfiled的值。cell的个数是可以动态改变的。如下图：</span><br></pre></td></tr></table></figure>
+
+<p><img src="iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-tableView%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96cell%E4%B8%8Atextfiled%E7%9A%84%E5%80%BC/20170608132436673.png" alt="iOS学习笔记-tableView中如何获取cell上textfiled的值"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在网上看了很多别人写的没找见容易点的实现方法，自己写了一个比较笨的方法。主要代码如下：</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@property(nonatomic,strong)NSMutableArray * arrray&#x2F;&#x2F;数组中元素的个数为cell的行数</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSMutableArray * tmparrray;&#x2F;&#x2F;存cell</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSMutableArray * tmpIndexPath;&#x2F;&#x2F;存indexPath</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSMutableArray * tmparrayaaaaa;&#x2F;&#x2F;获取cell的数据</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath方法中加入</span><br><span class="line"></span><br><span class="line"> [self.tmpIndexPath addObject:indexPath];  </span><br><span class="line"> [self.tmparrray addObject:cell];</span><br></pre></td></tr></table></figure>
+<p>定义一个按钮，当点击按钮的时候获取cell上textfiled中所填的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">for(int i &#x3D; 0; i&lt;self.tmpIndexPath.count; i++)</span><br><span class="line">&#123;</span><br><span class="line">     [self.tmparrayaaaaa removeObject:[NSString stringWithFormat:@&quot;%id&quot;,i]];</span><br><span class="line">     cell&#x3D;  [self.tmpTableView cellForRowAtIndexPath:[self.tmpIndexPath objectAtIndex:i]];</span><br><span class="line">     [self.tmparrayaaaaa addObject:cell.tmpTextfiled.text];</span><br><span class="line"></span><br><span class="line">  for (int i &#x3D; 0; i &lt; ((self.arrray.count * (self.arrray.count +1)) &#x2F;2 ) - self.arrray.count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        [self.tmparrayaaaaa removeObjectAtIndex:0];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;获取cell的值&#x3D;&#x3D;&#x3D;&#x3D;&gt;%@&quot;,self.tmparrayaaaaa);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">主要思路：在点击取值按钮后根据indexpath来遍历cell ，然后将cell中textfiled得值存到tmparrayaaaaa数组中。因为i每次循环，textfiled的值都要添加到数组中，所以数组终会有重复值，此时tmparrayaaaaa数组中元素的个数为(self.arrray.count * (self.arrray.count +1)) &#x2F;2 ，故用循环的方式一次移除多余的元素。</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/xiaobai0134.github.io/tags/Object-C/" rel="tag"># Object-C</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-tableView%E5%A4%9A%E9%80%89%E5%AE%9E%E7%8E%B0/" rel="prev" title="iOS学习笔记--tableView多选实现">
+      <i class="fa fa-chevron-left"></i> iOS学习笔记--tableView多选实现
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/xiaobai0134.github.io/2019/01/21/iOS-%E8%8E%B7%E5%8F%96IP%E5%9C%B0%E5%9D%80%E6%96%B9%E6%B3%95/" rel="next" title=" iOS 获取IP地址方法">
+       iOS 获取IP地址方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">小白</p>
+  <div class="site-description" itemprop="description">月圆之夜，紫禁之巅，一剑西来，天外飞仙。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/xiaobai0134.github.io/archives">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/xiaobai0134.github.io/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/xiaobai0134.github.io/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaobai0134" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xiaobai0134" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:191678492@qq.com" title="E-Mail → mailto:191678492@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/yizhiliulangdemiao" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;yizhiliulangdemiao" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小白</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/xiaobai0134.github.io/lib/anime.min.js"></script>
+  <script src="/xiaobai0134.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/xiaobai0134.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/xiaobai0134.github.io/js/utils.js"></script>
+
+<script src="/xiaobai0134.github.io/js/motion.js"></script>
+
+
+<script src="/xiaobai0134.github.io/js/schemes/pisces.js"></script>
+
+
+<script src="/xiaobai0134.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
