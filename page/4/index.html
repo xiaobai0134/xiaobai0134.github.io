@@ -183,6 +183,84 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/21/iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/xiaobai0134.github.io/images/avatar.gif">
+      <meta itemprop="name" content="小白">
+      <meta itemprop="description" content="月圆之夜，紫禁之巅，一剑西来，天外飞仙。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小白的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/xiaobai0134.github.io/2019/01/21/iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/" class="post-title-link" itemprop="url">iOS 随机验证码</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-01-21 14:14:52 / 修改时间：14:16:38" itemprop="dateCreated datePublished" datetime="2019-01-21T14:14:52+08:00">2019-01-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/xiaobai0134.github.io/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近在项目中用到了随机验证码，在这里简单做个记录。<br>效果图：</p>
+<p><img src="iOS-%E9%9A%8F%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81/20181004164927131.gif" alt="20181004164927131"></p>
+<p>主要代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">.h文件</span><br><span class="line">#import &lt;UIKit&#x2F;UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">typedef NS_ENUM(NSInteger,XBGetVerificationCodeType)</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    XBGetVerificationCodeOne &#x3D; 0,&#x2F;&#x2F;只数字</span><br><span class="line">    </span><br><span class="line">    XBGetVerificationCodeTwo,&#x2F;&#x2F;只字母</span><br><span class="line">    </span><br><span class="line">    XBGetVerificationCodeThree,&#x2F;&#x2F;数字字母混合</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">typedef void(^setShowCodeNumber)(NSString * codeNumber);</span><br><span class="line"></span><br><span class="line">@interface XBGetVerificationCodeView : UIView</span><br><span class="line"></span><br><span class="line">@property(nonatomic,assign)NSInteger verificationNumber;&#x2F;&#x2F;验证码位数</span><br><span class="line"></span><br><span class="line">@property(nonatomic,assign)XBGetVerificationCodeType tmpCodeType;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)setShowCodeNumber setShowCodeNumber;&#x2F;&#x2F;获取到的验证码</span><br><span class="line"></span><br><span class="line">-(void)setCodeTitleColor:(UIColor *)color;&#x2F;&#x2F; 设置验证码字体颜色</span><br><span class="line"></span><br><span class="line">-(void)setCodeTitleFont:(UIFont *)font;&#x2F;&#x2F;设置验证码字体大小</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line">.m 文件</span><br><span class="line">#import &quot;XBGetVerificationCodeView.h&quot;</span><br><span class="line"></span><br><span class="line">@interface XBGetVerificationCodeView()</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)UIButton * btn;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation XBGetVerificationCodeView</span><br><span class="line"></span><br><span class="line">-(id)initWithFrame:(CGRect)frame</span><br><span class="line">&#123;</span><br><span class="line">    self &#x3D; [super initWithFrame:frame];</span><br><span class="line">    </span><br><span class="line">    if(self)</span><br><span class="line">    &#123;</span><br><span class="line">        self.verificationNumber &#x3D; 6;</span><br><span class="line">        </span><br><span class="line">        self.btn &#x3D; [UIButton buttonWithType:UIButtonTypeCustom];</span><br><span class="line">        </span><br><span class="line">        [self.btn setFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];</span><br><span class="line">        </span><br><span class="line">        [self.btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];</span><br><span class="line">        </span><br><span class="line">        [self.btn setTitle:@&quot;获取验证码&quot; forState:UIControlStateNormal];</span><br><span class="line">        </span><br><span class="line">        [self.btn.titleLabel setFont:[UIFont systemFontOfSize:14.0]];</span><br><span class="line">        </span><br><span class="line">        [self.btn addTarget:self action:@selector(setBtnAction:) forControlEvents:UIControlEventTouchUpInside];</span><br><span class="line">        </span><br><span class="line">        [self addSubview:self.btn];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)setBtnAction:(UIButton *)sender</span><br><span class="line">&#123;</span><br><span class="line">    if(sender &amp;&amp; [sender isKindOfClass:[UIButton class]])</span><br><span class="line">    &#123;</span><br><span class="line">        [self.btn setTitle:[NSString stringWithFormat:@&quot;%@&quot;,[self getRandomStringWithNum:self.verificationNumber]] forState:UIControlStateNormal];</span><br><span class="line">        </span><br><span class="line">        if(self.setShowCodeNumber)</span><br><span class="line">        &#123;</span><br><span class="line">            self.setShowCodeNumber([NSString stringWithFormat:@&quot;%@&quot;,[self getRandomStringWithNum:self.verificationNumber]]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)setCodeTitleColor:(UIColor *)color</span><br><span class="line">&#123;</span><br><span class="line">    [self.btn setTitleColor:color forState:UIControlStateNormal];</span><br><span class="line">&#125;</span><br><span class="line">-(void)setCodeTitleFont:(UIFont *)font</span><br><span class="line">&#123;</span><br><span class="line">    [self.btn.titleLabel setFont:font];</span><br><span class="line">&#125;</span><br><span class="line">-(NSString *)getRandomStringWithNum:(NSInteger)num</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    NSString *string &#x3D; [[NSString alloc]init];</span><br><span class="line">    </span><br><span class="line">    if(self.tmpCodeType &#x3D;&#x3D; XBGetVerificationCodeOne)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; num; i++) &#123;</span><br><span class="line">           </span><br><span class="line">            int figure &#x3D; arc4random() % 10;</span><br><span class="line">           </span><br><span class="line">            NSString *tempString &#x3D; [NSString stringWithFormat:@&quot;%d&quot;, figure];</span><br><span class="line">           </span><br><span class="line">            string &#x3D; [string stringByAppendingString:tempString];</span><br><span class="line">           </span><br><span class="line">        &#125;</span><br><span class="line">        return string;</span><br><span class="line">    &#125;</span><br><span class="line">    else if(self.tmpCodeType &#x3D;&#x3D; XBGetVerificationCodeTwo)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; num; i++) &#123;</span><br><span class="line">            </span><br><span class="line">            int figure &#x3D; (arc4random() % 26) + 97;</span><br><span class="line">            </span><br><span class="line">            char character &#x3D; figure;</span><br><span class="line">           </span><br><span class="line">            NSString *tempString &#x3D; [NSString stringWithFormat:@&quot;%c&quot;, character];</span><br><span class="line">           </span><br><span class="line">            string &#x3D; [string stringByAppendingString:tempString];</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        return string;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; num; i++) &#123;</span><br><span class="line">            int number &#x3D; arc4random() % 36;</span><br><span class="line">            if (number &lt; 10) &#123;</span><br><span class="line">                int figure &#x3D; arc4random() % 10;</span><br><span class="line">                NSString *tempString &#x3D; [NSString stringWithFormat:@&quot;%d&quot;, figure];</span><br><span class="line">                string &#x3D; [string stringByAppendingString:tempString];</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                int figure &#x3D; (arc4random() % 26) + 97;</span><br><span class="line">                char character &#x3D; figure;</span><br><span class="line">                NSString *tempString &#x3D; [NSString stringWithFormat:@&quot;%c&quot;, character];</span><br><span class="line">                string &#x3D; [string stringByAppendingString:tempString];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return string;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">XBGetVerificationCodeView * xbView &#x3D; [[XBGetVerificationCodeView alloc]initWithFrame:CGRectMake(100, 100, 100, 40)];</span><br><span class="line">   </span><br><span class="line">    [xbView setBackgroundColor:[UIColor orangeColor]];</span><br><span class="line">    </span><br><span class="line">    xbView.tmpCodeType &#x3D; XBGetVerificationCodeThree;</span><br><span class="line">    </span><br><span class="line">    [xbView setSetShowCodeNumber:^(NSString *codeNumber) &#123;</span><br><span class="line">       </span><br><span class="line">        NSLog(@&quot;验证码为：%@&quot;,codeNumber);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    [self.view addSubview:xbView];</span><br></pre></td></tr></table></figure>
+<p>demo地址：<a href="https://gitee.com/xiaobaidxg/VerificationCode.git" target="_blank" rel="noopener">https://gitee.com/xiaobaidxg/VerificationCode.git</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xiaobai0134.github.io/2019/01/21/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%BE%AE%E5%8D%9A%E7%99%BB%E5%BD%95-redirect-uri-mismatch-%E9%94%99%E8%AF%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -896,7 +974,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/xiaobai0134.github.io/archives">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -907,7 +985,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/xiaobai0134.github.io/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
